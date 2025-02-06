@@ -8,7 +8,10 @@ This is a teacher, principal, and parent dashboard designed to integrate seamles
 - **Real-Time Sync:** Connects with Mathoria's Firebase Realtime Database for live updates.
 - **Performance Monitoring:** Track student progress, scores, and performance reports.
 - **Role-Based Access:** Dashboards for teachers, principals, and parents with Firebase Authentication.
+- **User Role Management:** Authentication for teachers, principals, and parents, ensuring role-specific access and features.
 - **Cheat Prevention:** Students can only take the math test if registered by an eligible teacher.
+- **Classroom Insights (Principals):** View classroom performance averages and indicators, with options to dive into specific student details.
+- **Parental Access:** Parents can track their child's academic progress and performance.
 
 ## 📦 Tech Stack
 
@@ -17,10 +20,10 @@ This is a teacher, principal, and parent dashboard designed to integrate seamles
 
 ## ⚙️ How It Works
 
-1. **Teacher Registration:** Teachers authenticate via Firebase.
+1. **User Authentication:** Teachers, principals, and parents authenticate via Firebase based on their role.
 2. **Student Registration:** Teachers register students using the player's Mathoria name.
 3. **Profile Sync:** Student profiles sync with Mathoria to enable test access.
-4. **Monitoring:** Teachers can view performance data and analytics.
+4. **Monitoring:** Teachers, principals, and parents can view performance data and analytics tailored to their roles.
 
 ## 🔑 Registration Flow
 
