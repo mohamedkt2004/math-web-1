@@ -26,6 +26,7 @@ This web app provides dashboards for teachers, administrators, and parents to mo
 3. **Profile Sync:** Student profiles sync with Mathoria, enabling test access.
 4. **Monitoring:** Principals, administrators, teachers, and parents can view tailored performance data and analytics based on their assigned roles.
 5. **Automatic User IDs:** The `Principal`, `Teacher`, `Parent`, `Administrator`, and `Student` classes inherit the `uid` field from the parent abstract Firebase class `User`. This ensures that each user is uniquely identified.
+6. **Student Deletion from the Test:** Teachers can remove students from the Test by setting `is_authenticated_by_teacher` to `false` and `linked_teacher_id` to `null`. This action does not delete the student's game account or any game-related data.
 
 ## 🔑 Registration Flow
 
