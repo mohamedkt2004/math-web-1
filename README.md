@@ -36,7 +36,7 @@ This web app provides dashboards for teachers, administrators, and parents to mo
 ## 🔒 Rules & Policies
 
 - Only students registered by an eligible teacher can take the test.
-- Students leaving the game multiple times during a test may automatically fail.
+- Students leaving the game multiple times during a test may automatically fail. If they are disconnected, they will receive a warning, and if disconnected again, the test is considered incomplete.
 - Photo URL is used for unique identification (via face recognition).
 - User roles (principal, teacher, parent, admin) are linked to their corresponding `uid` from Firebase Authentication.
 
@@ -44,19 +44,18 @@ This web app provides dashboards for teachers, administrators, and parents to mo
 
 The **Math-Web** app is designed with a clear class structure to manage user roles, student registrations, and data synchronization. Below is the class diagram representing the core components and their relationships:
 
-![Class Diagram](path/to/your/class-diagram.png)
+![Class Diagram](images/class-diagram.png)
 
 ### Key Classes:
 - **User (Abstract Class):** All user roles (Principal, Teacher, Parent, Administrator, Student) inherit from this class, which includes the `uid` field for unique identification and methods for authentication.
+- **UserRole:** An enumeration class to define the users possible roles which are `Principal`, `Teacher`, `Parent`, `Administrator`, and `Student`.
 - **Principal:** Can assign roles to other users (administrators, teachers and parents or even students) and has access to school-wide performance data.
 - **Teacher:** Responsible for registering users (players in Mathoria's game) as students and adjusting assessment tasks, ensuring that only registered players as students can take the test in the game.
 - **Administrator:** Has access to performance data at both the classroom and school levels, and can assign teacher and parent roles to users.
 - **Parent:** Can monitor their child's academic progress and performance.
 - **Student:** Represents the students registered to take the Mathoria math assessment tests, with personalized profiles synced with the Mathoria game.
 
-For a detailed explanation of the class structure, please refer to the diagram below.
-
-![Class Diagram](images/class-diagram.png)
+For a detailed explanation of the class structure, please refer to the diagram above.
 
 ---
 
