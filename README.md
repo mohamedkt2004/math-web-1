@@ -60,8 +60,6 @@ For a detailed explanation of the class structure, please refer to the diagram a
 
 ---
 
-Make sure to replace the `"path/to/your/class-diagram.png"` with the actual path where your diagram image is stored.
-
 ## 🗂 Sample Project
 
 Check out the sample React project here: [Math Dashboard React](https://github.com/najlae01/math-dashboard-react)
