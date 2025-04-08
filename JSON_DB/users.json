@@ -4,47 +4,47 @@
       "uid": "uid_123",
       "email": "principal@school.com",
       "role": "Principal",
-      "first_name": "Amine",
-      "last_name": "Bakkali",
+      "firstName": "Amine",
+      "lastName": "Bakkali",
       "school": "Tangier Science Academy"
     },
     "uid_456": {
       "uid": "uid_456",
       "email": "admin@school.com",
       "role": "Administrator",
-      "first_name": "Salma",
-      "last_name": "Zahra",
+      "firstName": "Salma",
+      "lastName": "Zahra",
       "school": "Tangier Science Academy"
     },
     "uid_789": {
       "uid": "uid_789",
       "email": "teacher1@school.com",
       "role": "Teacher",
-      "first_name": "Younes",
-      "last_name": "El Idrissi",
+      "firstName": "Younes",
+      "lastName": "El Idrissi",
       "school": "Tangier Science Academy"
     },
     "uid_999": {
       "uid": "uid_999",
       "email": "mom@gmail.com",
       "role": "Parent",
-      "first_name": "Khadija",
-      "last_name": "Abarghache",
-      "linked_student_ids": [
+      "firstName": "Khadija",
+      "lastName": "Abarghache",
+      "linkedStudentIds": [
         "cPcF70DhyUgaL38pU37csaf8Ns23",
-        "another_student_id"
+        "anotherStudentId"
       ]
     },
     "cPcF70DhyUgaL38pU37csaf8Ns23": {
       "uid": "cPcF70DhyUgaL38pU37csaf8Ns23",
       "email": "najlaeabarghache@etu.uae.ac.ma",
       "role": "Student",
-      "first_name": "Najlae",
-      "last_name": "Abarghache",
+      "firstName": "Najlae",
+      "lastName": "Abarghache",
       "birthday": "2001-07-26T00:00:00.000Z",
       "gender": "Female",
-      "school_grade": 6,
-      "linked_teacher_id": "uid_789"
+      "schoolGrade": 6,
+      "linkedTeacherId": "uid_789"
     }
   }
 }

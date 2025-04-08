@@ -113,7 +113,7 @@
           "2": {"numQuestions": 3, "maxNumberRange": 1, "requiredCorrectAnswersMinimumPercent": 75},
           "3": {"numQuestions": 2, "maxNumberRange": 2, "requiredCorrectAnswersMinimumPercent": 75}
         },
-        "skills": ["Previous and Next Number Identication"]
+        "skills": ["Previous and Next Number Identification"]
       }
     },
     "tap_matching_pairs": {
@@ -284,7 +284,7 @@
           "5": {"numQuestions": 8, "maxNumberRange": 6, "requiredCorrectAnswersMinimumPercent": 75},
           "6": {"numQuestions": 8, "maxNumberRange": 7, "requiredCorrectAnswersMinimumPercent": 75}
         },
-        "skills": ["Number's Units"]
+        "skills": ["Place Value Identification"]
       }
     },
     "read_number_aloud": {

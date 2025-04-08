@@ -7,7 +7,7 @@
         "en": "Grade 4 - Spring Term Assessment"
       },
       "teacherId": "uid_789",
-      "grade": "4",
+      "grade": 4,
       "testDuration": 120,
       "isDraft": false,
       "createdAt": "2025-04-07T10:00:00Z",
