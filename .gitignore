@@ -41,4 +41,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-JSON_DB/players.json
+# Ignore Firebase environment file
+src/environments/environment.ts

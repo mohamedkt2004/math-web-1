@@ -1,0 +1,15 @@
+<div class="register-container">
+    <h2>Welcome Back</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <label>Email</label>
+      <input type="email" formControlName="email" placeholder="you@example.com">
+  
+      <label>Password</label>
+      <input type="password" formControlName="password" placeholder="••••••••">
+  
+      <button type="submit" [disabled]="loading">Login</button>
+  
+      <p *ngIf="errorMessage" class="error">⚠ {{ errorMessage }}</p>
+    </form>
+  </div>
+  

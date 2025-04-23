@@ -88,7 +88,26 @@ Check out the sample React project here: [Math Dashboard React](https://github.c
    ```bash
    npm install
    ```
-3. Run the app:
+3. Create the file: `src/environments/environment.ts`
+
+4. Add your Firebase config like this:
+
+```ts
+export const environment = {
+  production: false,
+  firebaseConfig: {
+    apiKey: 'YOUR_API_KEY',
+    authDomain: 'YOUR_PROJECT.firebaseapp.com',
+    projectId: 'YOUR_PROJECT_ID',
+    storageBucket: 'YOUR_PROJECT.appspot.com',
+    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+    appId: 'YOUR_APP_ID',
+    databaseURL: 'https://YOUR_PROJECT.firebaseio.com'
+  }
+};
+```
+
+5. Run the app:
    ```bash
    ng serve
    ```
