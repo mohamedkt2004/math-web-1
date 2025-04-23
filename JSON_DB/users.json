@@ -51,10 +51,7 @@
         "gameLevel": 1,
         "mathLevel": 4,
         "coins": 25,
-        "timeSpent": 420,
         "questionsSolved": 320,
-        "accuracy": 87.5,
-        "hintsUsed": 3,
         "skillsToImprove" : ["Vertical Operation Accuracy", "Multiplication", "Division"],
         "rewardProfile": {
           "score": 85,
