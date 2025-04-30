@@ -1,5 +1,5 @@
 {
-  "test_config": {
+  "tests": {
     "test_001": {
       "testName": {
         "ar": "الصف الرابع - تقييم الفصل الدراسي الربيعي",
@@ -12,7 +12,7 @@
       "isDraft": false,
       "createdAt": "2025-04-07T10:00:00Z",
       "updatedAt": "2025-04-08T14:30:00Z",
-      "defaultMiniGameOrder": [
+      "miniGameOrder": [
         "find_compositions", 
         "vertical_operations", 
         "choose_answer", 
@@ -27,7 +27,7 @@
         "identify_place_value",
         "read_number_aloud"
       ],
-      "customMiniGameOrder": {
+      "groupsMiniGameOrder": {
         "group_1": [
           "choose_answer", "find_compositions", "vertical_operations"
         ],
@@ -46,7 +46,7 @@
             },
             "updatedAt": "2025-04-08T13:00:00Z"
           },
-          "groups": {
+          "groupsConfig": {
             "group_1": {
               "config": {
                 "minNumCompositions": 3, 

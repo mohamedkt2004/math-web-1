@@ -6,17 +6,19 @@ import { NavBarComponent } from '../../shared/nav-bar/nav-bar.component';
 import { StudentRegistrationComponent } from '../student-registration/student-registration.component';
 import { StudentListComponent } from '../student-list/student-list.component';
 import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
+import { TestCreationComponent } from '../test-creation/test-creation.component';
+import { TestListComponent } from '../test-list/test-list.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NgIf, NavBarComponent, SidebarComponent, RoleManagementComponent, StudentRegistrationComponent, StudentListComponent],
+  imports: [NgIf, NavBarComponent, SidebarComponent, RoleManagementComponent, StudentRegistrationComponent, StudentListComponent, TestCreationComponent, TestListComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
   userRole: string | null = null;
   loading = true;
-  selectedSection = 'student-register'; // default view for teachers
+  selectedSection = 'student-list'; // default view for teachers
 
   constructor(private auth: AuthService) {}
 

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MiniGameConfigComponent } from './mini-game-config.component';
+import { TestListComponent } from './test-list.component';
 
-describe('MiniGameConfigComponent', () => {
-  let component: MiniGameConfigComponent;
-  let fixture: ComponentFixture<MiniGameConfigComponent>;
+describe('TestListComponent', () => {
+  let component: TestListComponent;
+  let fixture: ComponentFixture<TestListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MiniGameConfigComponent]
+      imports: [TestListComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MiniGameConfigComponent);
+    fixture = TestBed.createComponent(TestListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

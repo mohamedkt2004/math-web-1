@@ -16,6 +16,8 @@
         <div class="teacher-content">
             <app-student-registration *ngIf="selectedSection === 'student-register'"></app-student-registration>
             <app-student-list *ngIf="selectedSection === 'student-list'"></app-student-list>
+            <app-test-creation *ngIf="selectedSection === 'test-create'"></app-test-creation>
+            <app-test-list *ngIf="selectedSection === 'test-list'"></app-test-list>
         </div>
     </div>
 
