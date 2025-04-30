@@ -23,7 +23,7 @@ export class StudentRegistrationComponent {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     birthday: ['', Validators.required],
-    grade: ['', Validators.required],
+    schoolGrade: ['', Validators.required],
     gender: ['', Validators.required],
     password: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]]
   });   
@@ -77,7 +77,7 @@ export class StudentRegistrationComponent {
     doc.setFontSize(12);
     doc.text(`First Name: ${student.firstName}`, 20, 30);
     doc.text(`Last Name: ${student.lastName}`, 20, 40);
-    doc.text(`Grade: ${student.grade}`, 20, 50);
+    doc.text(`Grade: ${student.schoolGrade}`, 20, 50);
     doc.text(`Birth Date: ${student.birthday}`, 20, 60);
     doc.text(`Gender: ${student.gender}`, 20, 70);
     doc.text(`PIN: ${student.password}`, 20, 80);
@@ -85,7 +85,7 @@ export class StudentRegistrationComponent {
   
     doc.addImage(qrUrl, "PNG", 20, 110, 100, 100);
   
-    const filename = `student-${student.firstName}-${student.lastName}-G${student.grade}.pdf`;
+    const filename = `student-${student.firstName}-${student.lastName}-G${student.schoolGrade}.pdf`;
     doc.save(filename);
   }  
   

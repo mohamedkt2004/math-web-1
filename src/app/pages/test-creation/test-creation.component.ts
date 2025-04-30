@@ -76,8 +76,8 @@ export class TestCreationComponent {
   
         for (const key in allUsers) {
           const student = allUsers[key];
-          if (student.role === 'Student' && student.linkedTeacherId === this.teacherUID && student.grade) {
-            gradesSet.add(`${student.grade}`);
+          if (student.role === 'Student' && student.linkedTeacherId === this.teacherUID && student.schoolGrade) {
+            gradesSet.add(`${student.schoolGrade}`);
           }
         }
   

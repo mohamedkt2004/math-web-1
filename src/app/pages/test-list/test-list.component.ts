@@ -31,7 +31,7 @@ export class TestListComponent implements OnInit {
       onValue(testsRef, (snapshot) => {
         const all = snapshot.val() || {};
         this.allTests = Object.values(all).filter((test: any) => test.teacherId === this.teacherUID);
-        this.grades = [...new Set(this.allTests.map((t: any) => t.grade))];
+        this.grades = [...new Set(this.allTests.map((t: any) => t.schoolGrade))];
         this.applyFilter();
       });
     });
@@ -39,7 +39,7 @@ export class TestListComponent implements OnInit {
 
   applyFilter() {
     this.filteredTests = this.selectedGrade
-      ? this.allTests.filter(t => t.grade === this.selectedGrade)
+      ? this.allTests.filter(t => t.schoolGrade === this.selectedGrade)
       : this.allTests;
   }
 }

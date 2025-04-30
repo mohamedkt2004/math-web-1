@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Database, ref, set, get } from '@angular/fire/database';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -61,5 +62,9 @@ export class AuthService {
 
   logout(): Promise<void> {
     return signOut(this.auth).then(() => {});
+  }
+
+  resetPassword(email: string): Observable<void> {
+    return from(sendPasswordResetEmail(this.auth, email));
   }
 }

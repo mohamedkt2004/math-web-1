@@ -59,4 +59,20 @@ export class LoginComponent {
       }
     });
   }
+
+  resetPassword() {
+    const email = this.loginForm.get('email')?.value;
+    if (!email) {
+      this.errorMessage = 'Please enter your email to reset your password.';
+      return;
+    }
+  
+    this.auth.resetPassword(email).subscribe({
+      next: () => alert('✅ Password reset email sent. Check your inbox.'),
+      error: (err) => {
+        this.errorMessage = err.message;
+      }
+    });
+  }
+  
 }

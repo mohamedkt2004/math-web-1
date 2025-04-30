@@ -107,7 +107,28 @@ export const environment = {
 };
 ```
 
-5. Run the app:
+5. **Set Firebase Realtime Database Rules**
+
+   In your Firebase Console, navigate to **Build > Realtime Database > Rules**, and replace the contents with:
+
+   ```json
+   {
+     "rules": {
+       "users": {
+         ".indexOn": ["playerName", "role"], 
+         ".read": true,   
+         ".write": true     
+       },
+       "tests": {
+         ".read": true,
+         ".write": true
+       }
+     }
+   }
+   ```
+   > This ensures read/write access for `users` and `tests`. Make sure to adapt these rules before production deployment.
+
+6. Run the app:
    ```bash
    ng serve
    ```
