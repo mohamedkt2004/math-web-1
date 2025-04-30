@@ -1,1 +1,11 @@
-<p>nav-bar works!</p>
+<nav class="navbar">
+    <div class="navbar-left">Mathoria</div>
+  
+    <div class="navbar-right">
+      <button class="gear-button" (click)="toggleMenu()">⚙</button>
+      <div class="dropdown" *ngIf="menuOpen">
+        <button (click)="logout()">Log Out</button>
+      </div>
+    </div>
+  </nav>
+  

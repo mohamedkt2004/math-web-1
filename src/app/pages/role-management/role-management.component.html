@@ -1,1 +1,30 @@
-<p>role-management works!</p>
+<h2>Role Management</h2>
+<div *ngIf="loading">Loading users...</div>
+<div *ngIf="!loading && pendingUsers.length === 0">No users pending approval.</div>
+
+<table *ngIf="!loading && pendingUsers.length > 0" class="user-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Assign Role</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of pendingUsers">
+      <td>{{ user.firstName }} {{ user.lastName }}</td>
+      <td>{{ user.email }}</td>
+      <td>
+        <select #role>
+          <option value="Teacher">Teacher</option>
+          <option value="Parent">Parent</option>
+          <option *ngIf="userRole === 'Principal'" value="Administrator">Administrator</option>
+        </select>
+      </td>
+      <td>
+        <button class="assign-button" (click)="assignRole(user.uid, role.value)">Assign</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

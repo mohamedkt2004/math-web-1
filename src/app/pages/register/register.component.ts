@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule  } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { sendEmailVerification } from 'firebase/auth';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, RouterModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -39,10 +39,26 @@ export class RegisterComponent {
           await user.reload();
           await sendEmailVerification(user);
           alert('Registration successful. Please check your email to verify your account.');
-          this.router.navigate(['/login']);
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          });          
         } catch (verifyError) {
           console.error('Verification error:', verifyError);
           this.errorMessage = 'Account created but failed to send verification email.';
+        }
+      },
+      error: (err) => { 
+        console.error('Registration error:', err);
+        this.loading = false;
+        // Display Firebase's error message if it exists
+        if (err.code === 'auth/email-already-in-use') {
+          this.errorMessage = 'This email is already registered. Please try logging in.';
+        } else if (err.code === 'auth/invalid-email') {
+          this.errorMessage = 'The email address is invalid.';
+        } else if (err.code === 'auth/weak-password') {
+          this.errorMessage = 'The password is too weak. It should be at least 6 characters.';
+        } else {
+          this.errorMessage = err.message || 'An unexpected error occurred during registration.';
         }
       }
     });

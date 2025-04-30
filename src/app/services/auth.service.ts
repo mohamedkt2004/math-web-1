@@ -1,15 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { Database, ref, set, get, child } from '@angular/fire/database';
-import { Router } from '@angular/router';
-import { from, Observable, of } from 'rxjs';
+import { Database, ref, set, get } from '@angular/fire/database';
+import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private auth = inject(Auth);
-  private db = inject(Database);
-  private router = inject(Router);
+  private db = inject(Database); 
 
   register(email: string, password: string, userProfile: any): Observable<any> {
     return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(
@@ -42,13 +40,23 @@ export class AuthService {
           observer.complete();
         } else {
           const userRef = ref(this.db, `users/${user.uid}`);
-          get(userRef).then(snapshot => {
-            observer.next(snapshot.val());
-            observer.complete();
-          });
+          from(get(userRef)).subscribe({
+            next: snapshot => {
+              observer.next(snapshot.val());
+              observer.complete();
+            },
+            error: err => {
+              observer.error(err);
+            }
+          });          
         }
       });
     });
+  }
+
+  getUserData(uid: string): Observable<any> {
+    const userRef = ref(this.db, `users/${uid}`);
+    return from(get(userRef)).pipe(map(snapshot => snapshot.val()));
   }
 
   logout(): Promise<void> {

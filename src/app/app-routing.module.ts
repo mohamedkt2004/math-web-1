@@ -1,23 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RegisterComponent } from './pages/register/register.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RoleManagementComponent } from './pages/role-management/role-management.component';
 import { AuthGuard } from './guards/auth.guard';
-import { PendingApprovalComponent } from './pages/pending-approval/pending-approval.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'register', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'pending-approval', component: PendingApprovalComponent },
-  { path: 'role-management', component: RoleManagementComponent, canActivate: [AuthGuard] },
-
-  { path: '**', redirectTo: 'register' } // fallback route
+  { path: 'register', loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent) },
+  { path: 'login', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) },
+  { path: 'pending-approval', loadComponent: () => import('./pages/pending-approval/pending-approval.component').then(m => m.PendingApprovalComponent) },
+  { path: '**', redirectTo: 'register' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

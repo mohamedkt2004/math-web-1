@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NgIf } from '@angular/common';
 import { ref, get, Database } from '@angular/fire/database';
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, RouterModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrl: './login.component.css'
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -42,14 +41,17 @@ export class LoginComponent {
           return;
         }
 
-        const userSnapshot = await get(ref(this.auth['db'], `users/${user.uid}`));
-        const userData = userSnapshot.val();
-
-        if (!userData || userData.role === 'Pending') {
-          this.router.navigate(['/pending-approval']);
-        } else {
-          this.router.navigate(['/dashboard']); 
-        }        
+        this.auth.getUserData(user.uid).subscribe(userData => {
+          if (!userData || userData.role === 'Pending') {
+            setTimeout(() => {
+              this.router.navigate(['/pending-approval']);
+            });
+          } else {
+            setTimeout(() => {
+              this.router.navigate(['/dashboard']);
+            });          
+          }  
+        });      
       },
       error: err => {
         this.loading = false;
