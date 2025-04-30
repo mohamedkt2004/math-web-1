@@ -126,7 +126,7 @@ export const environment = {
      }
    }
    ```
-   > This ensures read/write access for `users` and `tests`. Make sure to adapt these rules before production deployment.
+   > This ensures read/write access for `users` and `tests`.
 
 6. Run the app:
    ```bash
