@@ -8,10 +8,14 @@ import { StudentListComponent } from '../student-list/student-list.component';
 import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import { TestCreationComponent } from '../test-creation/test-creation.component';
 import { TestListComponent } from '../test-list/test-list.component';
+import { CreateParentComponent } from '../create-parent/create-parent.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NgIf, NavBarComponent, SidebarComponent, RoleManagementComponent, StudentRegistrationComponent, StudentListComponent, TestCreationComponent, TestListComponent],
+  imports: [NgIf, NavBarComponent, SidebarComponent, 
+    RoleManagementComponent, StudentRegistrationComponent, 
+    StudentListComponent, TestCreationComponent, 
+    TestListComponent, CreateParentComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -26,6 +30,13 @@ export class DashboardComponent {
     this.auth.getCurrentUserWithRole().subscribe(user => {
       if (user) this.userRole = user.role;
       this.loading = false;
+      if (this.userRole === "Teacher") {
+        this.selectedSection = 'student-list';
+      }
+      else if (this.userRole === "Admistrator" || this.userRole === "Principal")
+      {
+        this.selectedSection = 'user-list';
+      }
     });
   }
 

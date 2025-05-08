@@ -8,6 +8,7 @@
         <app-sidebar (sectionSelected)="onSectionSelected($event)"></app-sidebar>
         <div class="admin-content">
             <app-role-management *ngIf="selectedSection === 'user-list'"></app-role-management>
+            <app-create-parent *ngIf="selectedSection === 'parent-create'"></app-create-parent>
         </div>
     </div>
 
@@ -23,7 +24,7 @@
 
     <div *ngIf="userRole === 'Parent'">
         <p>Your role: {{ userRole }}</p>
-        <p>More personalized content will appear here.</p>
+        <p>Please download and use our app "AppName".</p>
     </div>
   </div>
   

@@ -26,18 +26,19 @@
     },
     "uid_999": {
       "uid": "uid_999",
-      "email": "mom@gmail.com",
+      "username": "mohamed_45",
+      "password": "hashed_8782jwdhhds",
+      "mustChangePassword": "false",
       "role": "Parent",
-      "firstName": "Khadija",
+      "firstName": "Mohamed",
       "lastName": "Abarghache",
-      "linkedStudentIds": [
+      "linkedChildrenIds": [
         "cPcF70DhyUgaL38pU37csaf8Ns23",
         "anotherStudentId"
       ]
     },
     "cPcF70DhyUgaL38pU37csaf8Ns23": {
       "uid": "cPcF70DhyUgaL38pU37csaf8Ns23",
-      "email": "najlaeabarghache@etu.uae.ac.ma",
       "role": "Student",
       "firstName": "Najlae",
       "lastName": "Abarghache",

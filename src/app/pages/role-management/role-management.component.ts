@@ -1,6 +1,6 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { Database, ref, get, set, query, orderByChild, equalTo } from '@angular/fire/database';
+import { Database, ref, get, set, push  } from '@angular/fire/database';
 import { from } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
@@ -90,6 +90,54 @@ export class RoleManagementComponent {
   getLinkedTeacherName(user: any): string {
     const teacher = this.teachers.find(t => t.uid === user.linkedTeacherId);
     return teacher ? `${teacher.firstName} ${teacher.lastName}` : 'Unknown';
+  }
+
+    // Method to Reset Parent Password
+  resetParentPassword(uid: string) {
+    const parent = this.users.find(u => u.uid === uid);
+    if (!parent) return;
+
+    const newPassword = this.generateSecurePassword();
+    parent.generatedPassword = newPassword;
+    set(ref(this.db, `users/${uid}/password`), newPassword);
+    alert(`Password Reset\nNew Password: ${newPassword}`);
+  }
+
+  // Secure Password Generator
+  generateSecurePassword(): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let password = '';
+    for (let i = 0; i < 10; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return password;
+  }
+
+  createParentAccount() {
+    const parentUsername = `parent_${this.users.filter(u => u.role === 'Parent').length + 1}`;
+    const password = this.generateSecurePassword();
+    
+    const newParentRef = push(ref(this.db, 'users'));
+    const newParentUid = newParentRef.key;
+
+    set(newParentRef, {
+      uid: newParentUid,
+      username: parentUsername,
+      role: 'Parent',
+      password: password,
+      linkedStudentIds: []
+    });
+
+    this.users.push({
+      uid: newParentUid,
+      username: parentUsername,
+      role: 'Parent',
+      password: password,
+      linkedStudentIds: []
+    });
+
+    this.applyFilter();
+    alert(`Parent Account Created\nUsername: ${parentUsername}\nPassword: ${password}`);
   }
   
 }
