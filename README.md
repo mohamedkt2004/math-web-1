@@ -113,9 +113,8 @@ export const environment = {
       ".write": true
     }
   }
-}
-
-   ```
+  };
+ ```
    > This ensures read/write access for `users` , `tests` and 'testResults'.
 
 6. Run the app:
