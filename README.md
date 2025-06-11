@@ -123,11 +123,5 @@ export const environment = {
    ng serve
    ```
 
-## 🤝 Contributing
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b group-one`).
-3. Commit changes (`git commit -m 'Add the group number one'`).
-4. Push to the branch (`git push origin group-one`).
-5. Open a pull request.
 
