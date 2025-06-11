@@ -67,7 +67,7 @@ For real data examples and templates, check the `/JSON_DB` directory:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/brahimbus/math-web.git
+   git clone https://github.com/mohamedkt2004/math-web-1.git
    ```
 2. Install dependencies:
    ```bash
