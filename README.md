@@ -97,13 +97,14 @@ export const environment = {
    In your Firebase Console, navigate to **Build > Realtime Database > Rules**, and replace the contents with:
 
    ```json
-   {
-  "rules": {
+
+   ,{"rules": {
     "users": {
       ".indexOn": ["playerName", "role", "username"],
       ".read": true,
       ".write": true
     },
+    
     "tests": {
       ".read": true,
       ".write": true
@@ -111,9 +112,7 @@ export const environment = {
     "testResults": {
       ".read": true,
       ".write": true
-    }
-  }
-  };
+    }}};
  ```
    > This ensures read/write access for `users` , `tests` and 'testResults'.
 
