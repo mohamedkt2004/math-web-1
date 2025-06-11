@@ -1,6 +1,6 @@
-<form [formGroup]="testForm" class="test-creation-form">
+<form [formGroup]="testForm" class="edit-test-form">
   <header class="form-header">
-    <h2>{{ testId ? 'Edit Test' : 'Create a New Test' }}</h2>
+    <h2>Edit Test</h2>
   </header>
 
   <div class="form-section">
@@ -11,7 +11,6 @@
         id="title"
         formControlName="title" 
         placeholder="Enter test title"
-        [disabled]="isPublished"
       />
       <div *ngIf="testForm.get('title')?.invalid && testForm.get('title')?.touched" class="error">
         <span class="error-icon">⚠️</span> Test title is required
@@ -20,7 +19,7 @@
 
     <div class="form-group">
       <label for="classroomId">Grade</label>
-      <select id="classroomId" formControlName="classroomId" [disabled]="isPublished">
+      <select id="classroomId" formControlName="classroomId">
         <option value="">Select Grade</option>
         <option *ngFor="let grade of gradeLevels" [value]="grade">
           Grade {{ grade }}
@@ -39,7 +38,6 @@
         formControlName="testDuration"
         min="5"
         placeholder="Enter duration (min. 5)"
-        [disabled]="isPublished"
       />
       <div *ngIf="testForm.get('testDuration')?.invalid && testForm.get('testDuration')?.touched" class="error">
         <span class="error-icon">⚠️</span> Test duration must be at least 5 minutes
@@ -59,7 +57,6 @@
           class="form-check-input"
           [checked]="selectedMiniGames.includes(game.id)"
           (change)="onCheckboxChange($event, game.id)"
-          [disabled]="isPublished"
         />
         <label [for]="game.id" class="form-check-label">
           {{ game.title }}
@@ -86,7 +83,6 @@
             formControlName="numberOfOptions"
             min="1"
             placeholder="Enter number of options"
-            [disabled]="isPublished"
           />
           <div *ngIf="testForm.get('miniGameConfigs')?.get(gameId)?.get('numberOfOptions')?.invalid && 
                       testForm.get('miniGameConfigs')?.get(gameId)?.get('numberOfOptions')?.touched" 
@@ -104,7 +100,6 @@
             formControlName="requiredCorrectAnswers"
             min="0"
             placeholder="Enter required correct answers"
-            [disabled]="isPublished"
           />
           <div *ngIf="testForm.get('miniGameConfigs')?.get(gameId)?.get('requiredCorrectAnswers')?.invalid && 
                       testForm.get('miniGameConfigs')?.get(gameId)?.get('requiredCorrectAnswers')?.touched" 
@@ -122,7 +117,6 @@
               [id]="gameId + '-' + controlName"
               [formControlName]="controlName"
               placeholder="Enter {{ controlName | titlecase }}"
-              [disabled]="isPublished"
             />
             <div *ngIf="testForm.get('miniGameConfigs')?.get(gameId)?.get(controlName)?.invalid && 
                         testForm.get('miniGameConfigs')?.get(gameId)?.get(controlName)?.touched" 
@@ -136,10 +130,10 @@
   </div>
 
   <div class="button-group">
-    <button type="button" class="btn btn-draft" (click)="saveAsDraft()" [disabled]="isPublished">
+    <button type="button" class="btn btn-draft" (click)="saveAsDraft()">
       <span class="btn-icon">💾</span> Save as Draft
     </button>
-    <button type="button" class="btn btn-publish" (click)="publishTest()" [disabled]="isPublished">
+    <button type="button" class="btn btn-publish" (click)="publishTest()">
       <span class="btn-icon">🚀</span> Publish Test
     </button>
   </div>

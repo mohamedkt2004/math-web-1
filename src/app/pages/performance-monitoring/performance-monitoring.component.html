@@ -1,0 +1,83 @@
+<div class="performance-monitoring-wrapper">
+  <header class="header">
+    <h1>Performance Monitoring</h1>
+  </header>
+
+  <!-- Filtre par grade -->
+  <section class="filter-section" aria-labelledby="filter-heading">
+    <h2 id="filter-heading" class="sr-only">Filter Options</h2>
+    <div class="filter-container">
+      <div class="filter-group">
+        <label for="grade-select" class="filter-label">Filter by Grade:</label>
+        <select 
+          id="grade-select"
+          class="filter-select"
+          [(ngModel)]="selectedGrade"
+          (change)="onGradeChange()"
+          aria-describedby="grade-help">
+          <option value="all">All Students</option>
+          <option *ngFor="let grade of availableGrades" [value]="grade">
+            Grade {{ grade }}
+          </option>
+        </select>
+        <small id="grade-help" class="filter-help">
+          Select a specific grade or view all students
+        </small>
+      </div>
+      
+      <!-- Indicateur du nombre de résultats -->
+      <div class="results-count" *ngIf="!loading">
+        <span class="count-text">
+          Showing {{ filteredResults.length }} result{{ filteredResults.length !== 1 ? 's' : '' }}
+          <span *ngIf="selectedGrade !== 'all'"> for Grade {{ selectedGrade }}</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="results-section" aria-labelledby="results-heading">
+    <h2 id="results-heading">Test Results</h2>
+    
+    <!-- Loading indicator -->
+    <div *ngIf="loading" class="loading-container" role="status" aria-live="polite">
+      <span class="loading-text">Loading test results...</span>
+    </div>
+
+    <!-- Results table -->
+    <div class="results-container" *ngIf="!loading">
+      <div class="results-header" role="row">
+        <span class="header-item" role="columnheader" aria-sort="none">Student Name</span>
+        <span class="header-item" role="columnheader" aria-sort="none">Grade</span>
+        <span class="header-item" role="columnheader" aria-sort="none">Test</span>
+        <span class="header-item" role="columnheader" aria-sort="none">Score</span>
+        <span class="header-item" role="columnheader" aria-sort="none">Correct</span>
+        <span class="header-item" role="columnheader" aria-sort="none">Wrong</span>
+        <span class="header-item" role="columnheader" aria-sort="none">Time</span>
+      </div>
+      <div class="results-list" role="rowgroup">
+        <div 
+          class="result-item" 
+          *ngFor="let result of filteredResults; let i = index" 
+          role="row" 
+          [attr.aria-label]="result.studentName + ', Grade: ' + (result.grade || result.studentGrade || result.class || result.level || 'N/A') + ', Test: ' + result.testName + ', Score: ' + result.score + '%'"
+          tabindex="0">
+          <span class="result-value" role="cell" data-label="Name: ">{{ result.studentName }}</span>
+          <span class="result-value" role="cell" data-label="Grade: ">{{ result.grade || result.studentGrade || result.class || result.level || 'N/A' }}</span>
+          <span class="result-value" role="cell" data-label="Test: ">{{ result.testName }}</span>
+          <span class="result-value score-value" role="cell" data-label="Score: ">{{ result.score }}</span>
+          <span class="result-value correct-value" role="cell" data-label="Correct: ">{{ getCorrectAnswers(result) }}</span>
+          <span class="result-value wrong-value" role="cell" data-label="Wrong: ">{{ getWrongAnswers(result) }}</span>
+          <span class="result-value time-value" role="cell" data-label="Time: ">{{ formatCompletionTime(result.completionTime) }}</span>
+        </div>
+
+        <div 
+          *ngIf="filteredResults.length === 0 && !loading" 
+          class="no-results" 
+          role="alert">
+          <span *ngIf="selectedGrade === 'all'">No results found for this teacher.</span>
+          <span *ngIf="selectedGrade !== 'all'">No results found for Grade {{ selectedGrade }}.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

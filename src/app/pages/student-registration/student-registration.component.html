@@ -1,37 +1,83 @@
 <div class="student-registration">
+  <header class="form-header">
     <h2>Student Registration</h2>
-    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="student-form">
-    <label>First Name</label>
-    <input type="text" formControlName="firstName" required />
+  </header>
+  <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="student-form">
+    <div class="form-section">
+      <div class="form-group">
+        <label for="firstName" class="required">First Name</label>
+        <input type="text" id="firstName" formControlName="firstName" placeholder="Enter first name" required />
+        <div *ngIf="studentForm.get('firstName')?.invalid && studentForm.get('firstName')?.touched" class="error">
+          <span class="error-icon">⚠️</span> First name is required
+        </div>
+      </div>
 
-    <label>Last Name</label>
-    <input type="text" formControlName="lastName" required />
+      <div class="form-group">
+        <label for="lastName" class="required">Last Name</label>
+        <input type="text" id="lastName" formControlName="lastName" placeholder="Enter last name" required />
+        <div *ngIf="studentForm.get('lastName')?.invalid && studentForm.get('lastName')?.touched" class="error">
+          <span class="error-icon">⚠️</span> Last name is required
+        </div>
+      </div>
 
-    <label>Birth Date</label>
-    <input type="date" formControlName="birthday" required />
+      <div class="form-group">
+        <label for="birthday" class="required">Birth Date</label>
+        <input type="date" id="birthday" formControlName="birthday" required />
+        <div *ngIf="studentForm.get('birthday')?.invalid && studentForm.get('birthday')?.touched" class="error">
+          <span class="error-icon">⚠️</span> Birth date is required
+        </div>
+      </div>
 
-    <label>Grade</label>
-    <select formControlName="schoolGrade">
-        <option value="1">Grade 1</option>
-        <option value="2">Grade 2</option>
-        <option value="3">Grade 3</option>
-        <option value="4">Grade 4</option>
-        <option value="5">Grade 5</option>
-        <option value="6">Grade 6</option>
-    </select>
+      <div class="form-group">
+        <label for="schoolGrade" class="required">Grade</label>
+        <select id="schoolGrade" formControlName="schoolGrade">
+          <option value="">Select Grade</option>
+          <option value="1">Grade 1</option>
+          <option value="2">Grade 2</option>
+          <option value="3">Grade 3</option>
+          <option value="4">Grade 4</option>
+          <option value="5">Grade 5</option>
+          <option value="6">Grade 6</option>
+        </select>
+        <div *ngIf="studentForm.get('schoolGrade')?.invalid && studentForm.get('schoolGrade')?.touched" class="error">
+          <span class="error-icon">⚠️</span> Grade is required
+        </div>
+      </div>
 
-    <label>Gender</label>
-    <select formControlName="gender">
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-    </select>
+      <div class="form-group">
+        <label for="gender" class="required">Gender</label>
+        <select id="gender" formControlName="gender">
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <div *ngIf="studentForm.get('gender')?.invalid && studentForm.get('gender')?.touched" class="error">
+          <span class="error-icon">⚠️</span> Gender is required
+        </div>
+      </div>
 
-    <label>Password (4-digit PIN)</label>
-    <input type="text" formControlName="password" maxlength="4" placeholder="1234" />
+      <div class="form-group">
+        <label for="password" class="required">Password (4-digit PIN)</label>
+        <input type="text" id="password" formControlName="password" maxlength="4" placeholder="Enter 4-digit PIN" />
+        <div *ngIf="studentForm.get('password')?.invalid && studentForm.get('password')?.touched" class="error">
+          <span class="error-icon">⚠️</span> Password must be a 4-digit PIN
+        </div>
+      </div>
+    </div>
 
-    <button type="submit" [disabled]="studentForm.invalid">Register Student</button>
+    <div class="button-group">
+      <button type="submit" class="btn btn-register" [disabled]="studentForm.invalid">
+        <span class="btn-icon">👤</span> Register Student
+      </button>
+    </div>
 
-    <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
-    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-    </form>
+    <div class="message-container">
+      <div *ngIf="successMessage" class="success">
+        <span class="message-icon">✅</span> {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="error">
+        <span class="message-icon">⚠️</span> {{ errorMessage }}
+      </div>
+    </div>
+  </form>
 </div>

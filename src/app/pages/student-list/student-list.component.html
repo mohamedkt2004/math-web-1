@@ -1,10 +1,27 @@
 <div class="student-list">
+  <header class="list-header">
     <h2>Student List</h2>
-  
-    <div *ngIf="loading">Loading students...</div>
-    <div *ngIf="!loading && students.length === 0">No students found.</div>
-  
-    <table *ngIf="!loading && students.length > 0">
+    <div class="student-count" *ngIf="!loading">
+      {{ students.length }} student{{ students.length !== 1 ? 's' : '' }} found
+    </div>
+  </header>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <span>Loading students...</span>
+  </div>
+
+  <!-- No students message -->
+  <div *ngIf="!loading && students.length === 0" class="no-students">
+    <div class="no-students-icon">👥</div>
+    <h3>No students found</h3>
+    <p>No students are currently linked to your account.</p>
+  </div>
+
+  <!-- Students table -->
+  <div *ngIf="!loading && students.length > 0" class="table-container">
+    <table class="students-table">
       <thead>
         <tr>
           <th>First Name</th>
@@ -16,17 +33,105 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let student of students">
-          <td>{{ student.firstName }}</td>
-          <td>{{ student.lastName }}</td>
-          <td>{{ student.birthday || 'N/A' }}</td>
-          <td>{{ student.schoolGrade }}</td>
-          <td>{{ student.gender }}</td>
-          <td>
-            <button (click)="unlinkStudent(student.uid)">Unlink</button>
-          </td>
+        <tr *ngFor="let student of students; let i = index" 
+            [class.editing-row]="editingStudent?.uid === student.uid">
+          
+          <!-- Mode normal -->
+          <ng-container *ngIf="!editingStudent || editingStudent.uid !== student.uid">
+            <td class="student-name">{{ student.firstName }}</td>
+            <td class="student-name">{{ student.lastName }}</td>
+            <td>{{ student.birthday || 'N/A' }}</td>
+            <td>
+              <span class="grade-badge">Grade {{ student.schoolGrade }}</span>
+            </td>
+            <td>
+              <span class="gender-badge" [class]="'gender-' + student.gender.toLowerCase()">
+                {{ student.gender }}
+              </span>
+            </td>
+            <td class="actions-cell">
+              <button (click)="startEdit(student)" 
+                      class="btn btn-edit"
+                      title="Edit student information">
+                <span class="btn-icon">✏️</span>
+                Edit
+              </button>
+              <button (click)="confirmDelete(student)" 
+                      class="btn btn-delete"
+                      title="Delete student">
+                <span class="btn-icon">🗑️</span>
+                Delete
+              </button>
+            </td>
+          </ng-container>
+
+          <!-- Mode édition -->
+          <ng-container *ngIf="editingStudent && editingStudent.uid === student.uid">
+            <td>
+              <input type="text" 
+                     [(ngModel)]="editForm.firstName"
+                     class="edit-input"
+                     placeholder="First Name"
+                     required>
+            </td>
+            <td>
+              <input type="text" 
+                     [(ngModel)]="editForm.lastName"
+                     class="edit-input"
+                     placeholder="Last Name"
+                     required>
+            </td>
+            <td>
+              <input type="date" 
+                     [(ngModel)]="editForm.birthday"
+                     class="edit-input">
+            </td>
+            <td>
+              <select [(ngModel)]="editForm.schoolGrade" 
+                      class="edit-select"
+                      required>
+                <option value="">Select Grade</option>
+                <option *ngFor="let grade of gradeOptions" [value]="grade">
+                  Grade {{ grade }}
+                </option>
+              </select>
+            </td>
+            <td>
+              <select [(ngModel)]="editForm.gender" 
+                      class="edit-select"
+                      required>
+                <option value="">Select Gender</option>
+                <option *ngFor="let gender of genderOptions" [value]="gender">
+                  {{ gender }}
+                </option>
+              </select>
+            </td>
+            <td class="actions-cell">
+              <button (click)="saveEdit()" 
+                      class="btn btn-save"
+                      [disabled]="!isFormValid() || editLoading"
+                      title="Save changes">
+                <span class="btn-icon" *ngIf="!editLoading">💾</span>
+                <span class="btn-icon loading" *ngIf="editLoading">⏳</span>
+                {{ editLoading ? 'Saving...' : 'Save' }}
+              </button>
+              <button (click)="cancelEdit()" 
+                      class="btn btn-cancel"
+                      [disabled]="editLoading"
+                      title="Cancel editing">
+                <span class="btn-icon">❌</span>
+                Cancel
+              </button>
+            </td>
+          </ng-container>
         </tr>
       </tbody>
     </table>
   </div>
-  
+
+  <!-- Edit form validation messages -->
+  <div *ngIf="isEditing && !isFormValid()" class="validation-message">
+    <div class="validation-icon">⚠️</div>
+    <span>Please fill in all required fields (First Name, Last Name, Grade, Gender)</span>
+  </div>
+</div>

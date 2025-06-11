@@ -12,16 +12,19 @@ export class AuthGuard implements CanActivate {
       take(1),
       map(user => {
         if (!user) {
+          console.log('AuthGuard: Utilisateur non connecté, redirection vers /login');
           this.router.navigate(['/login']);
           return false;
         }
 
-        // Only allow users who have a role other than 'Pending'
+        // Seuls les utilisateurs avec un rôle autre que 'Pending' sont autorisés
         if (user.role === 'Pending') {
+          console.log('AuthGuard: Utilisateur en attente d\'approbation, redirection vers /pending-approval');
           this.router.navigate(['/pending-approval']);
           return false;
         }
 
+        console.log('AuthGuard: Accès autorisé pour l\'utilisateur avec le rôle:', user.role);
         return true;
       })
     );

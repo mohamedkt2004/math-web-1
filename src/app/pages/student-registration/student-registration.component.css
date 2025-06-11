@@ -1,34 +1,209 @@
+.student-registration {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 0 15px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Form Header */
+.form-header {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.form-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* Form */
 .student-form {
-    display: flex;
-    flex-direction: column;
-    max-width: 400px;
-    gap: 12px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e9ecef;
+}
+
+/* Form Section */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Form Group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
+.form-group label.required::after {
+  content: ' *';
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  border: 2px solid #ced4da;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-group input:disabled,
+.form-group select:disabled {
+  background: #e9ecef;
+  cursor: not-allowed;
+}
+
+.form-group input.ng-valid.ng-touched,
+.form-group select.ng-valid.ng-touched {
+  border-color: #28a745;
+}
+
+.form-group input.ng-invalid.ng-touched,
+.form-group select.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 2px solid #e9ecef;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-icon {
+  font-size: 0.9rem;
+}
+
+.btn-register {
+  background: #007bff;
+  color: white;
+}
+
+.btn-register:hover:not(:disabled) {
+  background: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 123, 255, 0.2);
+}
+
+.btn-register:disabled {
+  background: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Message Container */
+.message-container {
+  margin-top: 20px;
+}
+
+.success,
+.error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+}
+
+.success {
+  background: #d4edda;
+  color: #155724;
+  border-left: 4px solid #28a745;
+}
+
+.error {
+  background: #f8d7da;
+  color: #721c24;
+  border-left: 4px solid #dc3545;
+}
+
+.message-icon {
+  font-size: 1rem;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  .student-form label {
-    font-weight: bold;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .student-form input, .student-form select {
-    padding: 8px;
-    font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .student-registration {
+    padding: 0 10px;
   }
-  
-  button {
-    margin-top: 12px;
-    padding: 10px;
-    background-color: #3f51b5;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+
+  .form-header h2 {
+    font-size: 1.5rem;
   }
-  
-  .success {
-    color: green;
+
+  .student-form {
+    padding: 20px;
   }
-  
-  .error {
-    color: red;
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
   }
-  
+}
+
+@media (max-width: 480px) {
+  .student-form {
+    padding: 15px;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 0.9rem;
+  }
+}

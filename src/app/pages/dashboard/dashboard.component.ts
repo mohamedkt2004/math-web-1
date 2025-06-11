@@ -9,20 +9,29 @@ import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import { TestCreationComponent } from '../test-creation/test-creation.component';
 import { TestListComponent } from '../test-list/test-list.component';
 import { CreateParentComponent } from '../create-parent/create-parent.component';
+import { PerformanceMonitoringComponent } from '../performance-monitoring/performance-monitoring.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NgIf, NavBarComponent, SidebarComponent, 
-    RoleManagementComponent, StudentRegistrationComponent, 
-    StudentListComponent, TestCreationComponent, 
-    TestListComponent, CreateParentComponent],
+  imports: [
+    NgIf,
+    NavBarComponent,
+    SidebarComponent,
+    RoleManagementComponent,
+    StudentRegistrationComponent,
+    StudentListComponent,
+    TestCreationComponent,
+    TestListComponent,
+    CreateParentComponent,
+    PerformanceMonitoringComponent
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
   userRole: string | null = null;
   loading = true;
-  selectedSection = 'student-list'; // default view for teachers
+  selectedSection = 'student-list';
 
   constructor(private auth: AuthService) {}
 
@@ -30,11 +39,9 @@ export class DashboardComponent {
     this.auth.getCurrentUserWithRole().subscribe(user => {
       if (user) this.userRole = user.role;
       this.loading = false;
-      if (this.userRole === "Teacher") {
+      if (this.userRole === 'Teacher') {
         this.selectedSection = 'student-list';
-      }
-      else if (this.userRole === "Admistrator" || this.userRole === "Principal")
-      {
+      } else if (this.userRole === 'Administrator' || this.userRole === 'Principal') {
         this.selectedSection = 'user-list';
       }
     });
@@ -43,5 +50,4 @@ export class DashboardComponent {
   onSectionSelected(section: string) {
     this.selectedSection = section;
   }
-    
 }

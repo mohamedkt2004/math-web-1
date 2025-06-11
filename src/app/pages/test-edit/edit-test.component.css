@@ -1,4 +1,4 @@
-.test-creation-form {
+.edit-test-form {
   max-width: 900px;
   margin: 20px auto;
   padding: 25px;
@@ -72,6 +72,16 @@
 .form-group select:disabled {
   background: #e9ecef;
   cursor: not-allowed;
+}
+
+.form-group input.ng-valid.ng-touched,
+.form-group select.ng-valid.ng-touched {
+  border-color: #28a745;
+}
+
+.form-group input.ng-invalid.ng-touched,
+.form-group select.ng-invalid.ng-touched {
+  border-color: #dc3545;
 }
 
 /* Games Selection */
@@ -219,7 +229,7 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .test-creation-form {
+  .edit-test-form {
     padding: 15px;
   }
 

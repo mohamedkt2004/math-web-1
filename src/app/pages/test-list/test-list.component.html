@@ -1,15 +1,62 @@
-<h2>Your Tests</h2>
+<div class="test-list-container">
+  <header class="header">
+    <h2>Your Tests</h2>
+    <div class="test-count">
+      {{ testCount }} test{{ testCount !== 1 ? 's' : '' }} created
+    </div>
+  </header>
 
-<label>Filter by Grade:</label>
-<select [(ngModel)]="selectedGrade" (change)="applyFilter()">
-  <option value="">All Grades</option>
-  <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
-</select>
+  <div class="filter-container">
+    <label for="grade-filter">Filter by Grade:</label>
+    <select id="grade-filter" [(ngModel)]="selectedGrade" (change)="applyFilter()">
+      <option value="">All Grades</option>
+      <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
+    </select>
+  </div>
 
-<ul>
-  <li *ngFor="let test of filteredTests">
-    📘 <strong>{{ test.testName }}</strong> - Grade {{ test.grade }} (⏱ {{ test.testDuration }} mins)
-  </li>
-</ul>
+  <div class="tests-container" *ngIf="filteredTests.length > 0">
+    <div class="test-card" *ngFor="let test of filteredTests">
+      <div class="test-info">
+        <span class="test-icon">📘</span>
+        <div class="test-details">
+          <strong>{{ test.testName }}</strong>
+          <div class="test-meta">
+            Grade {{ test.grade }} | ⏱ {{ test.testDuration }} mins
+            <span class="status-badge" [ngClass]="test.status === TestStatus.DRAFT ? 'draft' : 'published'">
+              {{ test.status }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button *ngIf="test.status === TestStatus.DRAFT" 
+                (click)="editTest(test.id!)" 
+                [disabled]="test.status !== TestStatus.DRAFT"
+                class="btn btn-edit"
+                title="Edit test">
+          <span class="btn-icon">✏️</span>
+          Edit
+        </button>
+        <button *ngIf="test.status === TestStatus.DRAFT" 
+                (click)="publishTest(test)"
+                class="btn btn-publish"
+                title="Publish test">
+          <span class="btn-icon">🚀</span>
+          Publish
+        </button>
+        <button *ngIf="test.status === TestStatus.DRAFT" 
+                (click)="deleteTest(test)"
+                class="btn btn-delete"
+                title="Delete test">
+          <span class="btn-icon">🗑️</span>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
 
-<div *ngIf="filteredTests.length === 0">No tests found.</div>
+  <div class="no-tests" *ngIf="filteredTests.length === 0">
+    <div class="no-tests-icon">📝</div>
+    <p>No tests found for the selected grade.</p>
+  </div>
+</div>

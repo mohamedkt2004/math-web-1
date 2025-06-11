@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
-import { Database, ref, set, onValue } from '@angular/fire/database';
+import { Database, ref, onValue, update } from '@angular/fire/database';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
@@ -12,13 +12,13 @@ import {
 } from '../../types/mini-game-types';
 
 @Component({
-  selector: 'app-test-creation',
+  selector: 'app-edit-test',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './test-creation.component.html',
-  styleUrl: './test-creation.component.css'
+  templateUrl: './edit-test.component.html',
+  styleUrl: './edit-test.component.css'
 })
-export class TestCreationComponent implements OnInit {
+export class EditTestComponent implements OnInit {
   private fb = inject(FormBuilder);
   private db = inject(Database);
   private auth = inject(AuthService);
@@ -29,6 +29,7 @@ export class TestCreationComponent implements OnInit {
   gradeLevels: string[] = [];
   teacherUID: string = "";
   selectedMiniGames: string[] = [];
+  testId: string | null = null;
   allMiniGames: {
     id: string;
     title: string;
@@ -38,8 +39,6 @@ export class TestCreationComponent implements OnInit {
       WhatNumberDoYouHearConfig
     >;
   }[] = [];
-  testId: string | null = null;
-  isPublished: boolean = false;
 
   testForm: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -52,35 +51,10 @@ export class TestCreationComponent implements OnInit {
 
   ngOnInit() {
     this.testId = this.route.snapshot.paramMap.get('id');
-    if (this.testId) {
-      const testRef = ref(this.db, `tests/${this.testId}`);
-      onValue(testRef, (snapshot) => {
-        const testData = snapshot.val();
-        if (!testData) {
-          alert('Error: Test not found.');
-          this.router.navigate(['/teacher-dashboard']);
-          return;
-        }
-
-        this.isPublished = testData.status === 'PUBLISHED';
-        if (this.isPublished) {
-          this.testForm.disable();
-        }
-
-        this.testForm.patchValue({
-          title: testData.testName,
-          classroomId: testData.grade,
-          testDuration: testData.testDuration,
-          selectedMiniGames: testData.miniGameOrder,
-          status: testData.status
-        });
-
-        this.selectedMiniGames = testData.miniGameOrder || [];
-        const configs = this.testForm.get('miniGameConfigs') as FormGroup;
-        for (const gameId of this.selectedMiniGames) {
-          configs.addControl(gameId, this.fb.group(this.buildMiniGameControls(gameId, testData.miniGameConfigs[gameId])));
-        }
-      });
+    if (!this.testId) {
+      alert('Erreur : Aucun ID de test fourni.');
+      this.router.navigate(['/teacher-dashboard']);
+      return;
     }
 
     this.auth.getCurrentUserWithRole().subscribe(user => {
@@ -100,13 +74,37 @@ export class TestCreationComponent implements OnInit {
         }
 
         this.gradeLevels = Array.from(gradesSet).sort();
-        
-        if (this.gradeLevels.length > 0 && !this.testForm.get('classroomId')?.value) {
-          this.testForm.get('classroomId')?.setValue(this.gradeLevels[0]);
+      });
+
+      // Load test data
+      const testRef = ref(this.db, `tests/${this.testId}`);
+      onValue(testRef, (snapshot) => {
+        const testData = snapshot.val();
+        if (!testData) {
+          alert('Erreur : Test introuvable.');
+          this.router.navigate(['/teacher-dashboard']);
+          return;
+        }
+
+        this.testForm.patchValue({
+          title: testData.testName,
+          classroomId: testData.grade,
+          testDuration: testData.testDuration,
+          selectedMiniGames: testData.miniGameOrder,
+          status: testData.status
+        });
+
+        this.selectedMiniGames = testData.miniGameOrder || [];
+        const configs = this.testForm.get('miniGameConfigs') as FormGroup;
+        for (const gameId of this.selectedMiniGames) {
+          if (['order_numbers', 'compare_numbers', 'what_number_do_you_hear'].includes(gameId)) {
+            configs.addControl(gameId, this.fb.group(this.buildMiniGameControls(gameId, testData.miniGameConfigs[gameId])));
+          }
         }
       });
     });
 
+    // Load mini-games data
     this.http.get('/mini-games.json').subscribe((data: any) => {
       if (!data || !data.miniGames) {
         console.error('Mini-game data not available');
@@ -131,11 +129,10 @@ export class TestCreationComponent implements OnInit {
   }
 
   onMiniGameToggle(gameId: string, checked: boolean) {
-    if (this.isPublished) return;
     const selectedMiniGames = [...this.selectedMiniGames];
     const configs = this.testForm.get('miniGameConfigs') as FormGroup;
     
-    if (checked) {
+    if (checked && ['order_numbers', 'compare_numbers', 'what_number_do_you_hear'].includes(gameId)) {
       selectedMiniGames.push(gameId);
       configs.addControl(gameId, this.fb.group(this.buildMiniGameControls(gameId)));
     } else {
@@ -177,12 +174,12 @@ export class TestCreationComponent implements OnInit {
   }
 
   onCheckboxChange(event: Event, gameId: string) {
-    if (this.isPublished) return;
     const input = event.target as HTMLInputElement;
     this.onMiniGameToggle(gameId, input.checked);
   }
 
   saveTest(isDraft: boolean) {
+    // Mark all form controls as touched to show validation errors
     Object.keys(this.testForm.controls).forEach(key => {
       this.testForm.get(key)?.markAsTouched();
     });
@@ -190,13 +187,12 @@ export class TestCreationComponent implements OnInit {
     console.log('Form state:', this.testForm.valid, this.testForm.value);
     console.log('Errors:', this.getFormValidationErrors());
     
-    if (this.testForm.invalid || this.isPublished) {
-      alert(this.isPublished ? 'This test is published and cannot be modified.' : 'Please fill all required fields.');
+    if (this.testForm.invalid) {
+      alert('Veuillez remplir tous les champs requis.');
       return;
     }
 
     const testData = this.testForm.value;
-    const testId = this.testId || 'test_' + Date.now();
     const testObject = {
       testName: testData.title,
       teacherId: this.teacherUID,
@@ -206,17 +202,16 @@ export class TestCreationComponent implements OnInit {
       status: isDraft ? 'DRAFT' : 'PUBLISHED',
       miniGameOrder: testData.selectedMiniGames,
       miniGameConfigs: testData.miniGameConfigs,
-      createdAt: this.testId ? undefined : Date.now(),
       updatedAt: Date.now()
     };
 
-    set(ref(this.db, `tests/${testId}`), testObject)
+    update(ref(this.db, `tests/${this.testId}`), testObject)
       .then(() => {
-        const message = isDraft ? '✅ Draft saved successfully!' : '✅ Test published successfully!';
+        const message = isDraft ? '✅ Draft successfully updated !' : '✅ Test successfully published !';
         alert(message);
         this.router.navigate(['/teacher-dashboard']);
       })
-      .catch((err) => console.error('❌ Error saving test:', err));
+      .catch((err) => console.error('❌ Error while updating the test :', err));
   }
 
   getFormValidationErrors() {
